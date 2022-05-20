@@ -71,6 +71,7 @@ def test_create_new_animal_and_check_id_on_list_of_animals(animal_id):
     5. Verify ID is on the list
     5. Assert result is not empty
     """
+
     def find_element_in_list(element, list_element):
         try:
             index_element = list_element.index(element)
@@ -78,12 +79,9 @@ def test_create_new_animal_and_check_id_on_list_of_animals(animal_id):
         except ValueError:
             return None
 
-    animal_details_response = requests.get(endpoints_aws.animal_with_id(animal_id))
-    assert animal_details_response.status_code == 200
-
-    animals_list_response = requests.get(endpoints_aws.animals).text
-
-    animal_id_index = find_element_in_list(animal_id, animals_list_response)
+    animals_list_response = requests.get(endpoints_aws.animals)
+    assert animals_list_response.status_code == 200
+    animal_id_index = find_element_in_list(animal_id, animals_list_response.text)
 
     assert animal_id_index is not None
     # print(f'Index no. {animal_id_index}')
